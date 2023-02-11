@@ -56,6 +56,28 @@ export class App extends Component {
     }));
   };
 
+
+  componentDidMount() {
+    const list = window.localStorage.getItem('contacts-list') 
+    if(!list) return
+
+    try {
+        this.setState({
+            contacts: JSON.parse(list)
+        })
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+componentDidUpdate(prevProps, prevState) {
+    if(prevState.contacts.length !== this.state.contacts.length) {
+        const contactListStringified = JSON.stringify(this.state.contacts)
+        window.localStorage.setItem('contacts-list', contactListStringified)
+    }
+}
+
+
   render() {
     return (
       <div className={css.phonebook}>
