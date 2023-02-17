@@ -14,13 +14,13 @@ export class App extends Component {
   addContact = ({ name, number }) => {
     const normalizationName = name.toLowerCase();
 
-    let atContactList = false;
-    this.state.contacts.forEach(item => {
-      if (item.name.toLocaleLowerCase() === normalizationName) {
-        alert(`${name} is already in contacts.`);
-        atContactList = true;
-      }
-    });
+    const atContactList = this.state.contacts.find(
+      ({ name }) => name.toLocaleLowerCase() === normalizationName
+    );
+    if (atContactList) {
+      alert(`${name} is already in contacts.`);
+      return;
+    }
 
     if (atContactList) {
       return;
@@ -56,27 +56,25 @@ export class App extends Component {
     }));
   };
 
-
   componentDidMount() {
-    const list = window.localStorage.getItem('contacts-list') 
-    if(!list) return
+    const list = window.localStorage.getItem('contacts-list');
+    if (!list) return;
 
     try {
-        this.setState({
-            contacts: JSON.parse(list)
-        })
+      this.setState({
+        contacts: JSON.parse(list),
+      });
     } catch (e) {
-        console.error(e)
+      console.error(e);
     }
-}
+  }
 
-componentDidUpdate(prevProps, prevState) {
-    if(prevState.contacts.length !== this.state.contacts.length) {
-        const contactListStringified = JSON.stringify(this.state.contacts)
-        window.localStorage.setItem('contacts-list', contactListStringified)
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+      const contactListStringified = JSON.stringify(this.state.contacts);
+      window.localStorage.setItem('contacts-list', contactListStringified);
     }
-}
-
+  }
 
   render() {
     return (
