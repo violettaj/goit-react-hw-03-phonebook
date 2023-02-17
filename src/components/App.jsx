@@ -11,7 +11,7 @@ export class App extends Component {
     filter: '',
   };
 
-  addContact = ({ name, number }) => {
+  handleContactAdd = ({ name, number }) => {
     const normalizationName = name.toLowerCase();
 
     const atContactList = this.state.contacts.find(
@@ -37,11 +37,11 @@ export class App extends Component {
     }));
   };
 
-  changeFilter = e => {
+  handleFilterChange = e => {
     this.setState({ filter: e.currentTarget.value });
   };
 
-  filteredContacts = () => {
+  handleContactsFiltered = () => {
     const { filter, contacts } = this.state;
     const normalizedCase = filter.toLowerCase();
 
@@ -50,7 +50,7 @@ export class App extends Component {
     );
   };
 
-  deleteContactItem = itemId => {
+  handleContactItemDelete = itemId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== itemId),
     }));
@@ -80,15 +80,18 @@ export class App extends Component {
     return (
       <div className={css.phonebook}>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
+        <ContactForm onSubmit={this.handleContactAdd} />
 
         <h2>Contacts</h2>
         {this.state.contacts.length > 0 && (
           <div>
-            <Filter value={this.state.filter} onChange={this.changeFilter} />
+            <Filter
+              value={this.state.filter}
+              onChange={this.handleFilterChange}
+            />
             <ContactList
-              contacts={this.filteredContacts()}
-              onDelete={this.deleteContactItem}
+              contacts={this.handleContactsFiltered()}
+              onDelete={this.handleContactItemDelete}
             />
           </div>
         )}
