@@ -59,14 +59,9 @@ export class App extends Component {
   componentDidMount() {
     const list = window.localStorage.getItem('contacts-list');
     if (!list) return;
-
-    try {
-      this.setState({
-        contacts: JSON.parse(list),
-      });
-    } catch (e) {
-      console.error(e);
-    }
+    this.setState({
+      contacts: JSON.parse(list),
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {

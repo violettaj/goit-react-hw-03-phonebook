@@ -15,7 +15,7 @@ export const ContactListElement = ({ id, name, number, onDelete }) => {
 };
 
 ContactListElement.propTypes = {
-  number: PropTypes.number,
+  number: PropTypes.string,
   name: PropTypes.string,
   onDelete: PropTypes.func,
 };
